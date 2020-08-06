@@ -14,7 +14,9 @@
 <body>
     <div class="container">
         <h1 id="header">Book List</h1>
-        <form>
+
+        <!--Form-->
+        <form id="form-book">
             <div class="form-group">
                 <label>Book Title</label>
                 <input type="text" class="form-control" id="title">
@@ -23,18 +25,26 @@
                 <label>Author</label>
                 <input type="text" class="form-control" id="author">
             </div>
-            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+            <input type="submit" value="Submit" class="btn btn-dark" id="submit">
         </form>
+        <br>
+
+        <!--Table-->
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="book-list"></tbody>
+        </table>
     </div>
 
-    <div id="results" style="display: none">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"></li>
-          </ul>
-    </div>
 
     <!--JavaScript-->
-    <script src="app.js"></script>
+    <script src="appes6.js"></script>
     <!-- Jquery first, then Popper.js, then Bootstrap JS-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
