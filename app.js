@@ -26,7 +26,11 @@ class UI {
     }
 
     showAlert() {
-
+        // Edit.......................
+        const div = document.createElement('div');
+        const newDivContent = document.createTextNode("We need text bro");
+        div.appendChild(newDivContent);
+        document.getElementById("header").appendChild(div);
     }
 
     deleteBook() {
@@ -46,24 +50,18 @@ document.getElementById("form-book").addEventListener("submit", function (e) {
     const title = document.getElementById("title").value;
     const author = document.getElementById("author").value;
 
+    // Instantiate book
+    const book = new Book(title, author);
+
+    // Intantiate UI
+    const ui = new UI();
+
     // Validate
     if (title === '' || author === '') {
+        ui.showAlert();
 
-        // Edit.......................
-        const newDiv = document.createElement('div');
-        const newDivContent = document.createTextNode("We need text bro");
-        newDiv.appendChild(newDivContent);
-
-        const currentDiv = document.getElementById("form-book");
-        document.body.insertBefore(newDiv, currentDiv);
-
+        e.preventDefault();
     } else {
-
-        // Instantiate book
-        const book = new Book(title, author);
-
-        // Intantiate UI
-        const ui = new UI();
 
         // Add book to list
         ui.addBookToList(book);
