@@ -14,36 +14,70 @@ class UI {
 
         // Create tr element
         const row = document.createElement('tr');
-
+        // Row HTML
         row.innerHTML = `
             <td>${book.title}</td>
             <td>${book.author}</td>
-            <td><a href='#'>X</a></td>
+            <td><a href='#' class='delete'>X</a></td>
         `;
-
+        // Append row to table
         table.appendChild(row);
 
-    }
+    };
 
-    showAlert() {
-        // Edit.......................
+    showAlert(msg, className) {
+        // Create div
         const div = document.createElement('div');
-        const newDivContent = document.createTextNode("We need text bro");
-        div.appendChild(newDivContent);
-        document.getElementById("header").appendChild(div);
-    }
+        // Add class
+        div.className = `alert ${className}`
+        // Create text
+        const divNode = document.createTextNode(msg);
+        // Add text
+        div.appendChild(divNode);
+        // UI container
+        const container = document.querySelector(".container");
+        // UI form book
+        const form = document.getElementById("form-book");
+        // Insert div
+        container.insertBefore(div, form);
+        // 3 second timer
+        setTimeout(function () {
+            document.querySelector('.alert').remove();
+        }, 3000);
+    };
 
-    deleteBook() {
-
-    }
+    deleteBook(target) {
+        if (target.className === 'delete') {
+            target.parentElement.parentElement.remove();
+        }
+    };
 
     clearFields() {
         const title = document.getElementById("title").value = '';
         const author = document.getElementById("author").value = '';
     };
-}
+};
 
-// Event Listeners
+// Local Storage Class
+class Store {
+    static getBooks() {
+
+    }
+
+    static displayBooks() {
+
+    }
+
+    static addBook() {
+
+    }
+
+    static removeBook() {
+
+    }
+};
+
+// Event Listener for add book
 document.getElementById("form-book").addEventListener("submit", function (e) {
 
     // Get form values
@@ -58,17 +92,38 @@ document.getElementById("form-book").addEventListener("submit", function (e) {
 
     // Validate
     if (title === '' || author === '') {
-        ui.showAlert();
-
+        // Error alert
+        ui.showAlert('Please fill in all fields', 'error');
+        // Clear fields
+        ui.clearFields();
+        // Prevent Default
         e.preventDefault();
     } else {
 
         // Add book to list
         ui.addBookToList(book);
 
+        // Success alert
+        ui.showAlert('Successfully submitted book', 'success');
+
         // Clear fields
         ui.clearFields();
-
+        // Prevent Default
         e.preventDefault();
     }
+});
+
+// Event Listener for delete book
+document.getElementById("table").addEventListener("click", function(e) {
+    
+    // Instantiate UI
+    const ui = new UI();
+    
+    // Delete book
+    ui.deleteBook(e.target);
+
+    // Success alert
+    ui.showAlert("Successfully deleted book", "success")
+
+    e.preventDefault();
 })
