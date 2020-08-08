@@ -10,7 +10,7 @@ class Book {
 class UI {
     // Add book to list
     addBookToList(book) {
-        const table = document.getElementById("table");
+        const table = document.getElementById("book-list");
 
         // Create tr element
         const row = document.createElement('tr');
@@ -24,7 +24,7 @@ class UI {
         table.appendChild(row);
 
     };
-
+    // Show alert
     showAlert(msg, className) {
         // Create div
         const div = document.createElement('div');
@@ -45,13 +45,13 @@ class UI {
             document.querySelector('.alert').remove();
         }, 3000);
     };
-
+    // Delete book from page
     deleteBook(target) {
         if (target.className === 'delete') {
             target.parentElement.parentElement.remove();
         }
     };
-
+    // Clear entry field
     clearFields() {
         const title = document.getElementById("title").value = '';
         const author = document.getElementById("author").value = '';
@@ -74,7 +74,7 @@ class Store {
     static displayBooks() {
         const books = Store.getBooks();
 
-        books.forEach(function(book) {
+        books.forEach(function (book) {
             const ui = new UI;
 
             // Add book to UI
@@ -85,13 +85,21 @@ class Store {
     static addBook(book) {
         const books = Store.getBooks();
 
-        books.push(book)
+        books.push(book);
 
         localStorage.setItem('books', JSON.stringify(books));
     }
 
-    static removeBook() {
+    static removeBook(title) {
+        const books = Store.getBooks();
 
+        books.forEach(function (book, index) {
+            if (book.title === title) {
+                books.splice(index, 1);
+            }
+        });
+
+        localStorage.setItem('books', JSON.stringify(books));
     }
 };
 
@@ -128,22 +136,28 @@ document.getElementById("form-book").addEventListener("submit", function (e) {
 
         // Clear fields
         ui.clearFields();
+
         // Prevent Default
         e.preventDefault();
     }
 });
 
 // Event Listener for delete book
-document.getElementById("table").addEventListener("click", function(e) {
-    
+document.getElementById("book-list").addEventListener("click", function (e) {
+
     // Instantiate UI
     const ui = new UI();
-    
+
     // Delete book
     ui.deleteBook(e.target);
 
+    // Delete book from LS
+    Store.removeBook(e.target.parentElement.parentElement.firstElementChild.innerHTML);
+
     // Success alert
-    ui.showAlert("Successfully deleted book", "success")
+    if (e.target.className === 'delete') {
+        ui.showAlert("Successfully deleted book", "success")
+    }
 
     e.preventDefault();
 })
