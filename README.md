@@ -14,5 +14,6 @@
 * Bootstrap control
 * Flow control
 * DOM manipulation
+* Local Storage
 
 
